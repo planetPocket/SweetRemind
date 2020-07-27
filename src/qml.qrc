@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>BadName.qml</file>
+        <file>List.qml</file>
+        <file>TaskWrapper.qml</file>
+        <file>Edit.qml</file>
+        <file>SideBar.qml</file>
+        <file>MultiButton.qml</file>
+    </qresource>
+</RCC>
