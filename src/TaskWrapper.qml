@@ -1,60 +1,86 @@
 import QtQuick 2.0
+import QtQuick.Controls 1.4
 Item {
     width: parent.width -20
     height: parent.height -20
     id:tasklist
-
+    property int count:0
+    property variant colors:['#882313','#598131']
     Connections{
         target: heditor
         onMystringChanged:{
-
-            let color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
-            var data = {name: v, colour: color}
+//            let color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+            let color = colors[count++%2]
+            heditor
+            var data = {
+                name: v,
+                colour: color
+            }
             qmlModel.append(data)
+        }
+        onTodolistChanged:{
+            console.log('ah',list)
         }
     }
     ListModel {
          id: qmlModel
      }
-
-//    ListView {
-//        anchors.fill: parent
-//        clip: true
-//        model:qmlModel
-//    }
-
     ListView {
         id: list_view
         anchors.fill: parent
         model: qmlModel
-//        model: cppModel
         delegate: Rectangle {
             height: 20
             width: 200
-            color: colour
-            Text { text: name }
+            Text {
+                id:tt
+                text: name
+            }
+            Image {
+                x:parent.x + 200
+                y:0
+                height: 20
+                width: 20
+                source: "/icon/confirm.png"
+                MouseArea{
+                anchors.fill: parent
+                    onClicked: {
+//                        tt.Styled
+                        tt.font.strikeout = true
+                        console.log('ok')
+//                        qmlModel.remove(name)
+                    }
+                }
+            }
+            Image {
+                x:parent.x + 220
+                y:0
+                height: 20
+                width: 20
+                source: "/icon/cancel.png"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+//                        tt.Styled
+                        console.log('cacc')
+                        tt.font.strikeout = false
+                    }
+                }
+            }
+            Image {
+                x:parent.x + 240
+                y:0
+                height: 20
+                width: 20
+                source: "/icon/delete.png"
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        qmlModel.remove(name)
+                    }
+                }
+            }
         }
     }
 
-//    Rectangle{
-//        x:parent.x
-//        y:parent.y
-//        width: parent.width
-//        height: parent.height
-//        border.color:  "#404142"
-//    }
-//    Repeater{
-//        model:(parent.height)/20
-//        delegate: Rectangle{
-//            x:parent.x
-//            y:parent.y + 20 * (index)
-//            width: parent.width
-//            height: 1
-//            color:  "#404142"
-//            Text {
-//                id: name
-////                text: qsTr("" + index)
-//            }
-//        }
-//    }
 }

@@ -15,12 +15,12 @@ void HandleEditor::setString(QString string){
     emit mystringChanged(string);
 }
 
-QString HandleEditor::getTodolist()
+QList<QString> HandleEditor::getTodolist()
 {
 
 }
 
-void HandleEditor::setTodolist(QString string)
+void HandleEditor::setTodolist(QList<QString> string)
 {
 
 }
@@ -29,4 +29,5 @@ void HandleEditor::handleSubmitContent(const QString &in)
 {
     qDebug() << "get new todo or remind"<<in;
     m_todolist[m_todolist.size()].todocontent = in;
+    m_todolisttest.push_back(in);
 }

@@ -12,13 +12,12 @@ Window {
     width: 400
     height: 200
     title: qsTr("Sweet Remind")
-
-    SideBar{
-        x:0
-        y:30
-        width: 40
-        height: 60
-    }
+//    SideBar{
+//        x:0
+//        y:30
+//        width: 40
+//        height: 60
+//    }
 
     TaskWrapper{
         id:tw

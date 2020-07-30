@@ -7,5 +7,8 @@
         <file>Edit.qml</file>
         <file>SideBar.qml</file>
         <file>MultiButton.qml</file>
+        <file>icon/cancel.png</file>
+        <file>icon/confirm.png</file>
+        <file>icon/delete.png</file>
     </qresource>
 </RCC>

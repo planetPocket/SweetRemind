@@ -32,7 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Edit.qml \
-    List.qml \
     MultiButton.qml \
     SideBar.qml \
     TaskWrapper.qml \
