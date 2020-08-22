@@ -38,8 +38,9 @@ Window {
         onTriggered: {
             // equals EnterKey
             if(pressKey.length === 1 && pressKey.pop() === 16777220){
-                heditor.mystring = textArea.getText(0,textArea.length)
-                heditor.test = heditor.mystring
+                let data = "-1 "
+                data += textArea.getText(0,textArea.length)
+                heditor.mystring = data
             }else{
                 pressKey = []
             }
