@@ -24,12 +24,20 @@ Window {
         x:40
         y:10
         width: 200
-        height: 140
+        height: parent.height - 30
+    }
+    Shortcut{
+        sequence: ["Ctrl+A"]
+        onActivated: {
+            var component = Qt.createComponent("Edit.qml");
+            var window = component.createObject(ww, {"x": 100, "y": 300});
+            window.show();
+        }
     }
 
     Button{
         objectName: "sd"
-        x: 40
+        x: parent.width - width
         y: parent.height - 20
         text: "Add New"
         onClicked: {

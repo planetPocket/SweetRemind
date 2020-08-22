@@ -1,4 +1,4 @@
-QT += quick qml
+QT += quick qml core
 
 CONFIG += c++14
 
@@ -32,6 +32,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 DISTFILES += \
     Edit.qml \
+    Modify.qml \
     MultiButton.qml \
     SideBar.qml \
     TaskWrapper.qml \

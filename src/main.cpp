@@ -26,5 +26,7 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     engine.rootContext()->setContextProperty("heditor",&heditor);
     engine.load(url);
+    heditor.readAllRemindsFromStore();
+//    QTimer::singleShot(1000,&heditor,&HandleEditor::readAllRemindsFromStore);
     return app.exec();
 }

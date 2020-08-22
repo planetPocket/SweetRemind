@@ -8,13 +8,17 @@ Window {
     visible: true
     width: 400
     height: 200
-    title: qsTr("Add a new remind item")
+    title: qsTr("modify")
     signal sendMsg(string msg)
     onSendMsg: console.log(msg)
     property var pressKey: []
     Shortcut {
         sequence: StandardKey.SaveAs
         onActivated: saveDialog.open()
+    }
+    Component.onCompleted: {
+        console.log('vsdd',tt.val)
+        textArea.append(tt.val)
     }
 
     Button{

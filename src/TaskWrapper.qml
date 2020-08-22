@@ -1,5 +1,9 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+
+import QtQuick.Controls 1.4
+import QtQuick.Layouts 1.3
+import QtQuick.Controls.Styles 1.2
 Item {
     width: parent.width -20
     height: parent.height -20
@@ -11,15 +15,15 @@ Item {
         onMystringChanged:{
 //            let color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
             let color = colors[count++%2]
-            heditor
             var data = {
                 name: v,
                 colour: color
             }
             qmlModel.append(data)
+            heditor.test = "jhi"
         }
-        onTodolistChanged:{
-            console.log('ah',list)
+        onActivetriggerChanged:{
+            console.log(v)
         }
     }
     ListModel {
@@ -34,7 +38,16 @@ Item {
             width: 200
             Text {
                 id:tt
+                property string val:name
                 text: name
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        var component = Qt.createComponent("Modify.qml");
+                        var window = component.createObject(tt);
+                        window.show();
+                    }
+                }
             }
             Image {
                 x:parent.x + 200
@@ -43,12 +56,11 @@ Item {
                 width: 20
                 source: "/icon/confirm.png"
                 MouseArea{
-                anchors.fill: parent
+                    anchors.fill: parent
                     onClicked: {
-//                        tt.Styled
+                        heditor.m_activetrigger = "finished";
                         tt.font.strikeout = true
                         console.log('ok')
-//                        qmlModel.remove(name)
                     }
                 }
             }
@@ -61,8 +73,8 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-//                        tt.Styled
-                        console.log('cacc')
+                        heditor.m_activetrigger = "cancel";
+                        console.log('cancel')
                         tt.font.strikeout = false
                     }
                 }
@@ -76,6 +88,8 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
+                        console.log('cancel')
+                        heditor.m_activetrigger = "delete";
                         qmlModel.remove(name)
                     }
                 }

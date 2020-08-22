@@ -1,8 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>BadName.qml</file>
-        <file>List.qml</file>
         <file>TaskWrapper.qml</file>
         <file>Edit.qml</file>
         <file>SideBar.qml</file>
@@ -10,5 +8,6 @@
         <file>icon/cancel.png</file>
         <file>icon/confirm.png</file>
         <file>icon/delete.png</file>
+        <file>Modify.qml</file>
     </qresource>
 </RCC>
