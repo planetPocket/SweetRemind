@@ -42,7 +42,7 @@ Window {
         text: "Add New"
         onClicked: {
             var component = Qt.createComponent("Edit.qml");
-            var window = component.createObject(ww, {"x": 100, "y": 300});
+            var window = component.createObject(ww);
             window.show();
         }
     }

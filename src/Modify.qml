@@ -2,6 +2,7 @@ import QtQuick 2.14
 import QtQuick.Window 2.14
 import QtQuick.Controls 2.5
 import QtQml 2.14
+//import QtQuick 2.0
 Window {
     id:editor
 
@@ -17,10 +18,12 @@ Window {
         onActivated: saveDialog.open()
     }
     Component.onCompleted: {
-        console.log('vsdd',tt.val)
-        textArea.append(tt.val)
+        textArea.append(wrapper.val)
     }
-
+    onClosing: {
+        close.accepted = true;
+        wrapper.modifyState = false;
+    }
     Button{
         id:confirm
         x: parent.width-width
@@ -28,7 +31,7 @@ Window {
         width: 50
         text: "Add"
         onClicked: {
-            heditor.mystring = textArea.getText(0,textArea.length)
+            heditor.mystring = wrapper.id + " " + textArea.getText(0,textArea.length)
         }
     }
     Timer {
@@ -40,7 +43,7 @@ Window {
         onTriggered: {
             // equals EnterKey
             if(pressKey.length === 1 && pressKey.pop() === 16777220){
-                heditor.mystring = textArea.getText(0,textArea.length)
+                heditor.mystring = wrapper.id + " " + textArea.getText(0,textArea.length)
                 heditor.test = heditor.mystring
             }else{
                 pressKey = []

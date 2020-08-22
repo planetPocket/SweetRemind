@@ -24,7 +24,9 @@ Window {
         width: 50
         text: "Add"
         onClicked: {
-            heditor.mystring = textArea.getText(0,textArea.length)
+            let data = "-1 "
+            data += textArea.getText(0,textArea.length)
+            heditor.mystring = data
         }
     }
     Timer {
@@ -74,7 +76,6 @@ Window {
             }
             Keys.enabled: true
             Keys.onPressed: {
-//                console.log(event.key)
                 if(event.key === 16777220)
                     event.accepted = true;
                 pressKey.push(event.key)
