@@ -12,12 +12,19 @@ Window {
     width: 400
     height: 200
     title: qsTr("Sweet Remind")
-//    SideBar{
-//        x:0
-//        y:30
-//        width: 40
-//        height: 60
-//    }
+    flags: Qt.Dialog
+
+    property bool stickyState: true //default set always actived
+    onWindowStateChanged: {
+        //show 0  hide 1
+        windowState.accepted = false;
+        if(stickyState == true){
+            // set window actived
+            ww.requestActivate()
+        }
+    }
+    Component.onCompleted: {
+    }
 
     TaskWrapper{
         id:tw
@@ -34,7 +41,6 @@ Window {
             window.show();
         }
     }
-
     Button{
         objectName: "sd"
         x: parent.width - width

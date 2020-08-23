@@ -9,20 +9,24 @@ Item {
     height: parent.height -20
     id:tasklist
     property int count:0
+    property string connstr: "<-/-/->"
     property variant colors:['#D7E2E8','#0BACFF']
+    property variant allheights:[20]
     Connections{
         target: heditor
         onShowStrChanged:{
 //            let color = '#'+(Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
-            let rr = v.split(" ");
+            let rr = v.split(connstr);
+            console.log(rr)
             let strikeoutstate = false;
             if(rr[2] === "1"){
                 strikeoutstate = true;
             }
             var data = {
                 list_id:rr[0],
-                name: rr[1],
+                content: rr[1],
                 colour: '',
+                count:0,
                 st:strikeoutstate
             }
             let findstate = false;
@@ -31,10 +35,12 @@ Item {
                     // modify
                     findstate = true;
                     data.colour = colors[rr[0]%2]
+                    data.count = count
                     qmlModel.set(i,data)
                     break;
                 }
             if(findstate === false){
+                data.count = count
                 data.colour = colors[count++%2]
                 qmlModel.append(data)
             }
@@ -46,7 +52,7 @@ Item {
     }
     ListModel {
          id: qmlModel
-     }
+    }
     ListView {
         id: lv
         anchors.fill: parent
@@ -56,25 +62,30 @@ Item {
             height: 20
             width: 200
             color: colour
-            property string val:name
+
+            // content list_id st from data
+            property string val:content
             property bool modifyState:false
-//            property list alldata:data
-            property int id:list_id
-            Text {
+            property int data_id:list_id
+             Text {
                 id:tt
-                text: name
+                text: content
+                wrapMode:Text.WrapAtWordBoundaryOrAnywhere
+                width: 200
                 font.strikeout: st
+                Component.onCompleted: {
+                    wrapper.height = height
+                }
+
                 MouseArea{
                     anchors.fill: parent
                     onDoubleClicked: {
-                        console.log(st)
                         if(!wrapper.modifyState){
                             wrapper.modifyState = true;
                             var component = Qt.createComponent("Modify.qml");
                             var window = component.createObject(tt);
                             window.show();
                         }
-
                     }
                 }
             }
@@ -87,7 +98,7 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        heditor.m_activetrigger = wrapper.id + " " + "finished";
+                        heditor.m_activetrigger = wrapper.data_id + connstr + "finished";
                         tt.font.strikeout = true
                     }
                 }
@@ -101,7 +112,7 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        heditor.m_activetrigger = wrapper.id + " "+ "cancel";
+                        heditor.m_activetrigger = wrapper.data_id + connstr + "cancel";
                         tt.font.strikeout = false
                     }
                 }
@@ -115,8 +126,8 @@ Item {
                 MouseArea{
                     anchors.fill: parent
                     onClicked: {
-                        heditor.m_activetrigger = wrapper.id + " "+ "delete";
-                        qmlModel.remove(name)
+                        heditor.m_activetrigger = wrapper.data_id +connstr + "delete";
+                        qmlModel.remove(content)
                     }
                 }
             }

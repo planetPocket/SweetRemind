@@ -11,6 +11,7 @@ Window {
     title: qsTr("Add a new remind item")
     signal sendMsg(string msg)
     onSendMsg: console.log(msg)
+    property string connstr: "<-/-/->"
     property var pressKey: []
     Shortcut {
         sequence: StandardKey.SaveAs
@@ -24,7 +25,7 @@ Window {
         width: 50
         text: "Add"
         onClicked: {
-            let data = "-1 "
+            let data = "-1" + connstr
             data += textArea.getText(0,textArea.length)
             heditor.mystring = data
         }
@@ -38,7 +39,7 @@ Window {
         onTriggered: {
             // equals EnterKey
             if(pressKey.length === 1 && pressKey.pop() === 16777220){
-                let data = "-1 "
+                let data = "-1" + connstr
                 data += textArea.getText(0,textArea.length)
                 heditor.mystring = data
             }else{

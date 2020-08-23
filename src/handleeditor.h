@@ -54,19 +54,16 @@ public slots:
 private:
     QString m_showstr;
     QString m_stringptr;
-    QList<QString> m_tmplist;
-    QList<TODO> m_tmp;
     //unuse
     QMap<int,TODO> m_todolist;
-    QVector<TODO> m_todos;
-    int m_todosize;
     QTimer m_readtimer;
     QFile m_fd;
     QString StoreFilePath = "./lists";
     int idcount = 0;
     QString m_activetrigger;
     bool mtimeout =false;
-    QVariantMap m_qmap;
+
+    QString connstr = "<-/-/->";
 };
 
 #endif // HANDLEEDITOR_H

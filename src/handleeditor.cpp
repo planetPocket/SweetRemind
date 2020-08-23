@@ -12,9 +12,9 @@ HandleEditor::~HandleEditor()
     m_fd.seek(0);
     for(auto d:m_todolist){
         auto str = QString::number(d.id).toLatin1()
-                + " "
-                +d.todocontent.toLatin1()
-                + " "
+                + connstr.toLatin1()
+                + d.todocontent.toUtf8()
+                + connstr.toLatin1()
                 + QString::number(d.state).toLatin1()
                 + "\n";
         m_fd.write(str);
@@ -25,19 +25,6 @@ HandleEditor::~HandleEditor()
 
 void HandleEditor::saveContent(){
         qDebug() << "write todo lists to file";
-        for(auto d:m_tmp){
-            m_fd.write(QString::number(d.id).toLatin1()
-                       + " "
-                       + QString::number(d.state).toLatin1()
-                       + " "
-                       +d.todocontent.toLatin1()
-                       + "\n"
-                       );
-        }
-        m_fd.flush();
-        m_tmp.clear();
-        m_readtimer.stop();
-        mtimeout = false;
 }
 
 void HandleEditor::readAllRemindsFromStore()
@@ -56,7 +43,7 @@ void HandleEditor::readAllRemindsFromStore()
             continue;
         }
         line.chop(1);
-        auto res = line.split(" ");
+        auto res = line.split(connstr);
         if(res.size() != 3){
             continue;
         }
@@ -66,7 +53,7 @@ void HandleEditor::readAllRemindsFromStore()
         todo.state = STATE(res[2].toInt());
         todo.todocontent = res[1];
         m_todolist[id] = todo;
-        QString str = QString::number(id)+ " " + res[1] + " " + res[2];
+        QString str = QString::number(id)+ connstr + res[1] + connstr + res[2];
         emit showStrChanged(str);
         idcount = id + 1;
     }
@@ -107,7 +94,7 @@ void HandleEditor::setShowString(QString string)
 void HandleEditor::handleActiveChange(const QString &data)
 {
     qDebug() << "active" << data;
-    auto r = data.split(" ");
+    auto r = data.split(connstr);
     auto &todo = m_todolist[r[0].toInt()];
     if(r[1] == "finished"){
         todo.state = SW_FINISHED;
@@ -130,8 +117,9 @@ void HandleEditor::handleSubmitContent(const QString &data)
         in = in.chopped(1);
     }
     qDebug() << "get new todo or remind"<<in;
-    auto res = in.split(" ");
+    auto res = in.split(connstr);
     int id = res[0].toInt();
+    qDebug() << res;
     if(id == -1){
         // new data
         qDebug() << "new data" << res << res[1];
@@ -143,11 +131,11 @@ void HandleEditor::handleSubmitContent(const QString &data)
         todo.state = SW_ACTIVE;
         QString truestr;
         for(auto i : res){
-            truestr += i + " ";
+            truestr += i + connstr;
         }
-        truestr.chop(1);
+        truestr += QString::number(todo.state);
         emit showStrChanged(truestr);
-        qDebug() << "new data" << res << res[1];
+        qDebug() << "new data" << truestr;
         m_todolist[id] = todo;
     }else{
         qDebug() << "modify data";
@@ -156,11 +144,10 @@ void HandleEditor::handleSubmitContent(const QString &data)
         todo.todocontent = res[1];
         QString truestr;
         for(auto i : res){
-            truestr += i + " ";
+            truestr += i + connstr;
         }
+        truestr += QString::number(todo.state);
         emit showStrChanged(truestr);
-        //todo
-//        todo.state = SW_AVTIVE;
     }
 //    mtimeout = true;
 //    if(mtimeout){

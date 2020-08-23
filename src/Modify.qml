@@ -11,6 +11,7 @@ Window {
     height: 200
     title: qsTr("modify")
     signal sendMsg(string msg)
+    property string connstr: "<-/-/->"
     onSendMsg: console.log(msg)
     property var pressKey: []
     Shortcut {
@@ -31,7 +32,7 @@ Window {
         width: 50
         text: "Add"
         onClicked: {
-            heditor.mystring = wrapper.id + " " + textArea.getText(0,textArea.length)
+            heditor.mystring = wrapper.data_id + connstr + textArea.getText(0,textArea.length)
         }
     }
     Timer {
@@ -43,7 +44,7 @@ Window {
         onTriggered: {
             // equals EnterKey
             if(pressKey.length === 1 && pressKey.pop() === 16777220){
-                heditor.mystring = wrapper.id + " " + textArea.getText(0,textArea.length)
+                heditor.mystring = wrapper.data_id + connstr + textArea.getText(0,textArea.length)
                 heditor.test = heditor.mystring
             }else{
                 pressKey = []
