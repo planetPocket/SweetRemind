@@ -1,5 +1,11 @@
 #include "handleeditor.h"
+
+#include <unistd.h>
+#include <sys/types.h>
+#include <pwd.h>
+
 #include "QDebug"
+#include <QDir>
 HandleEditor::HandleEditor(QObject *parent) : QObject(parent)
 {
     connect(&m_readtimer,&QTimer::timeout,this,&HandleEditor::saveContent);
@@ -29,8 +35,21 @@ void HandleEditor::saveContent(){
 
 void HandleEditor::readAllRemindsFromStore()
 {
-    qDebug() << "read";
-    m_fd.setFileName(StoreFilePath);
+    //read user home path
+    struct passwd *pw = getpwuid(getuid());
+    QString homepath = pw->pw_dir;
+    if(homepath.back() != '/'){
+        homepath += "/" + m_storefilepath;
+    }else{
+        homepath += m_storefilepath;
+    }
+    QDir dir;
+    if(!dir.exists(homepath)){
+        dir.mkdir(homepath);
+    }
+    auto filepath = homepath + m_storefile;
+
+    m_fd.setFileName(filepath);
     if(!m_fd.open(QIODevice::ReadWrite)){
         qDebug() << "failed to open remind store file";
         qDebug() << m_fd.errorString();

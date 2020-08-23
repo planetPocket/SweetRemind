@@ -58,7 +58,8 @@ private:
     QMap<int,TODO> m_todolist;
     QTimer m_readtimer;
     QFile m_fd;
-    QString StoreFilePath = "./lists";
+    QString m_storefilepath = "./SweetRemind/";
+    QString m_storefile = "data";
     int idcount = 0;
     QString m_activetrigger;
     bool mtimeout =false;
